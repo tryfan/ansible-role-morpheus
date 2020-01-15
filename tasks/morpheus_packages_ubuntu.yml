@@ -3,8 +3,10 @@
   apt:
       name: "{{ morpheus_package_ubuntu }}"
       state: present
+  notify: Morpheus Reconfigure
 
 - name: Morpheus UI | Install Morpheus Offline
   apt:
       name: "{{ morpheus_offline_package_ubuntu }}"
       state: present
+  notify: Morpheus Reconfigure

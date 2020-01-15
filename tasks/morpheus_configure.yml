@@ -3,3 +3,4 @@
   template:
       src: morph.config.j2
       dest: /etc/morpheus/morpheus.rb
+  notify: Morpheus Reconfigure

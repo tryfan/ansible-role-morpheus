@@ -1,2 +1,4 @@
 ---
 # handlers file for morpheus
+- name: Morpheus Reconfigure
+  command: morpheus-ctl reconfigure
