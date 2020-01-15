@@ -1,0 +1,3 @@
+---
+- name: Morpheus UI | Run an initial Morpheus Reconfigure
+  command: morpheus-ctl reconfigure

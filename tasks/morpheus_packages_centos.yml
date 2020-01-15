@@ -1,0 +1,10 @@
+---
+- name: Morpheus UI | Install Morpheus
+  yum:
+      name: "{{ morpheus_package_centos }}"
+      state: present
+
+- name: Morpheus UI | Install Morpheus Offline
+  yum:
+      name: "{{ morpheus_offline_package_centos }}"
+      state: present

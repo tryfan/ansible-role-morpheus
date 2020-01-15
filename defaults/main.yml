@@ -1,0 +1,9 @@
+---
+# defaults file for morpheus
+appliance_url: "https://morpheus.example.com"
+mysql_external: false
+rabbitmq_custom: false
+morpheus_package_centos: url_goes_here
+morpheus_offline_package_centos: url_goes_here
+morpheus_package_ubuntu: url_goes_here
+morpheus_offline_package_ubuntu: url_goes_here
