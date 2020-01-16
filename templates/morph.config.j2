@@ -1,5 +1,5 @@
 appliance_url '{{ appliance_url }}'
-{% if mysql_external == true %}
+{% if morpheus_mysql_external == true %}
 mysql['enable'] = false
 mysql['host'] = { {% for minion in groups['db'] %}
 '{{ hostvars[minion]['ansible_all_ipv4_addresses'][0] }}' => 3306{% if not loop.last %},{% endif %}
