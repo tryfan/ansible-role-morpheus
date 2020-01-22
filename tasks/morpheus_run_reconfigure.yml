@@ -1,0 +1,16 @@
+---
+- name: Run Reconfigure
+  command: morpheus-ctl reconfigure
+  args:
+    creates: /etc/morpheus/morpheus-secrets.json
+  async: 900
+  poll: 10
+
+- name: check URI
+  uri:
+    url: "http://{{ item }}/ping"
+    return_content: true
+  register: urlcontent
+  until: '"MORPHEUS PING" in urlcontent.content'
+  retries: 30
+  delay: 30

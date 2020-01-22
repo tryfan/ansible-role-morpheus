@@ -1,0 +1,28 @@
+path:
+  logs: <%= @es_logs %>
+  data: <%= @es_data %>
+cluster:
+  name: <%= @es_cluster %>
+  initial_master_nodes:
+  <% @es_hosts.each do |h,p| -%>
+  - <%= "#{h}" %>
+  <% end -%>
+node:
+  name: <%= @es_node %>
+<% if @es_bind_ip == '127.0.0.1' -%>
+network:
+  host: <%= @es_bind_ip %>
+<% else -%>
+network:
+  bind_host: <%= @es_bind_ip %>
+  publish_host: <%= @es_publish %>
+<% end -%>
+<% if @es_hosts.length > 1 -%>
+discovery:
+  seed_hosts:
+  <% @es_hosts.each do |h,p| -%>
+  - "<%= "#{h}:9300" %>"
+  <% end -%>
+  zen:
+    minimum_master_nodes: <%= @es_hosts.length / 2 + 1 %>
+<% end -%>

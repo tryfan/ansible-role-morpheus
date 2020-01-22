@@ -1,6 +1,27 @@
 --- 
 - name: Morpheus UI | Push Morpheus config
   template:
-      src: morph.config.j2
-      dest: /etc/morpheus/morpheus.rb
-  notify: Morpheus Reconfigure
+    src: morph.config.j2
+    dest: /etc/morpheus/morpheus.rb
+  register: configpush
+
+## TODO Remove when version morpheus 4.1.2-2 is released
+- name: patch installer for ES clustering issue
+  copy:
+    src: files/elasticsearch.erb
+    dest: /opt/morpheus/embedded/cookbooks/morpheus-solo/templates/default/elasticsearch.erb
+
+- name: Check if Morpheus has been reconfigured previously
+  stat:
+    path: /etc/morpheus/morpheus-secrets.json
+  register: morpheussecrets
+
+- name: Set var for Initial Configuration
+  set_fact:
+    initial_config: true
+  when: ( inventory_hostname == play_hosts[0] ) and
+        ( not morpheussecrets.stat.exists )
+
+- name: Run Initial Configuration
+  include_tasks: morpheus_initial_reconfigure.yml
+  when: initial_config

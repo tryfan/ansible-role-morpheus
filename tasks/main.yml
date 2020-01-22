@@ -1,4 +1,8 @@
 ---
+# Sanity Checks
+
+- include_tasks: morpheus_sanity_checks.yml
+
 - include_tasks: morpheus_packages_centos.yml
   when: ansible_os_family == 'RedHat'
 
