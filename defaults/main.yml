@@ -17,3 +17,13 @@ initial_config: false
 
 morpheus_rabbitmq_external_cookie: ""
 morpheus_elastic_tls: false
+
+morpheus_elastic_cluster_name: morpheus
+morpheus_elastic_hosts: {}
+
+morpheus_db: morpheusdb
+morpheus_db_user: morpheus
+morpheus_db_pass: Pa55w0rd!
+morpheus_db_port: 3306
+morpheus_db_url_override: false
+morpheus_db_url_override_options: ""

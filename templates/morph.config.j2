@@ -1,7 +1,11 @@
 appliance_url '{{ appliance_url }}'
 {% if morpheus_mysql_external == true %}
 mysql['enable'] = false
-mysql['mysql_url_overide'] = 'jdbc:mysql://{% for minion in groups[morpheus_db_group] %}{{ hostvars[minion]['ansible_all_ipv4_addresses'][0] }}:3306{% if not loop.last %},{% endif %}{% endfor %}/morpheusdb?autoReconnect=true&useUnicode=true&characterEncoding=utf8&failOverReadOnly=false&useSSL=false'
+{% if morpheus_db_url_override == true %}
+mysql['mysql_url_overide'] = 'jdbc:mysql://{% for minion in groups[morpheus_db_group] %}{{ hostvars[minion]['ansible_all_ipv4_addresses'][0] }}:{{ morpheus_db_port }}{% if not loop.last %},{% endif %}{% endfor %}{{ morpheus_db_url_override_options }}'
+{% else %}
+mysql['host'] = '{{ morpheus_db_host }}'
+{% endif %}
 mysql['morpheus_db'] = '{{ morpheus_db }}'
 mysql['morpheus_db_user'] = '{{ morpheus_db_user }}'
 mysql['morpheus_password'] = '{{ morpheus_db_pass }}'
