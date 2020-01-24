@@ -2,7 +2,6 @@
 # defaults file for morpheus
 appliance_url: "https://morpheus.example.com"
 morpheus_mysql_external: false
-morpheus_rabbitmq_external: false
 morpheus_elastic_external: false
 morpheus_package_centos: https://downloads.morpheusdata.com/files/morpheus-appliance-4.1.2-1.el7.x86_64.rpm
 morpheus_offline_package_centos: https://downloads.morpheusdata.com/files/morpheus-appliance-offline-4.1.2-1.noarch.rpm
@@ -10,7 +9,6 @@ morpheus_package_ubuntu: https://downloads.morpheusdata.com/files/morpheus-appli
 morpheus_offline_package_ubuntu: https://downloads.morpheusdata.com/files/morpheus-appliance-offline_4.1.2-1_all.deb
 
 morpheus_group: morpheus
-morpheus_rabbitmq_group: rabbitmq
 morpheus_db_group: db
 
 initial_config: false
@@ -27,3 +25,12 @@ morpheus_db_pass: Pa55w0rd!
 morpheus_db_port: 3306
 morpheus_db_url_override: false
 morpheus_db_url_override_options: ""
+
+morpheus_rabbitmq_external: false
+morpheus_rabbitmq_lb: 127.0.0.1
+morpheus_rabbitmq_user: morpheus
+morpheus_rabbitmq_password: rabbitmqmorpheuspass
+morpheus_rabbitmq_vhost: morpheus
+morpheus_rabbitmq_port: 5672
+morpheus_rabbitmq_stomp_port: 61613
+morpheus_rabbitmq_heartbeat: 50

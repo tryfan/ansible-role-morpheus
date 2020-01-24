@@ -25,17 +25,16 @@ The only required variable for deploying a single appliance is `appliance_url`
 |`morpheus_package_ubuntu`|N|`https://downloads.morpheusdata.com/files/morpheus-appliance_4.1.2-1_amd64.deb`|Morpheus Appliance DEB|
 |`morpheus_offline_package_ubuntu`|N|`https://downloads.morpheusdata.com/files/morpheus-appliance-offline_4.1.2-1_all.deb`|Morpheus Offline DEB; This package contains packages that the Morpheus installer would otherwise pull down.|
 |`morpheus_group`|Y|`morpheus`|Inventory group name for the Morpheus UI node(s)|
-|`morpheus_rabbitmq_group`|N|`rabbitmq`|Inventory group name for the RabbitMQ node(s) - Only required when deploying HA and running RabbitMQ on Morpheus UI nodes|
-|`morpheus_db_group`|N|`db`|Inventory group name for the database node(s)|
 |`initial_config`|N|`false`|Initial configuration flag.  If set to true and run against a morpheus group, it will reconfigure the group, regardless of morpheus-secrets.json existence.|
 |`morpheus_rabbitmq_external_cookie`|N|`""`|Custom Erlang cookie for rabbitmq if not running the ansible-role-rabbitmq-cluster role.|
-|`morpheus_elastic_tls`|N|`false`|Use TLS with Elasticsearch|
-|`morpheus_elastic_cluster_name`|N|`morpheus`|Elasticsearch cluster name, only used for external ES|
-|`morpheus_mysql_external`|N|`false`|Use external MySQL DB|
-|`morpheus_rabbitmq_external`|N|`false`|Use external RabbitMQ|
 |`morpheus_elastic_external`|N|`false`|Use external Elasticsearch|
 |`morpheus_elastic_hosts`|N|`{}`|List of dictionaries describing Elasticsearch hosts.  Args: `host`, `port`|
+|`morpheus_elastic_tls`|N|`false`|Use TLS with Elasticsearch|
+|`morpheus_elastic_cluster_name`|N|`morpheus`|Elasticsearch cluster name, only used for external ES|
+|`morpheus_rabbitmq_external`|N|`false`|Use external RabbitMQ|
 |`morpheus_rabbitmq_lb`|N|`127.0.0.1`|RabbitMQ load balancer.  If using RabbitMQ on UI nodes, this uses it's local cluster member to communicate with the cluster.|
+|`morpheus_mysql_external`|N|`false`|Use external MySQL compatible DB and do not install embedded MySQL|
+|`morpheus_db_group`|N|`db`|Inventory group name for the database node(s)|
 |`morpheus_db`|N|`morpheusdb`|Morpheus database name|
 |`morpheus_db_user`|N|`morpheus`|Morpheus database user|
 |`morpheus_db_pass`|N|`Pa55w0rd!`|Morpheus database password|
@@ -45,15 +44,22 @@ The only required variable for deploying a single appliance is `appliance_url`
 <!-- TODO: Make sure to include a section for external DB to explain the url override -->
 
 
-## All in One Appliance
+## Morpheus Installation
+
+This role downloads and installs the Morpheus Cloud Management Platform
+
+### All in One Appliance
 
 An all in one Morpheus appliance uses embedded RabbitMQ, MariaDB, and Elasticsearch.
 
-### Required Variables
+#### Required Variables
 
-`appliance_url`
+- `appliance_url`
 
-### Example Playbook
+#### Usage
+Set `appliance_url` to the DNS name of your appliance.  This can be a CNAME.
+
+#### Example Playbook
 
     - hosts: morpheus
       gather_facts: true
@@ -63,21 +69,109 @@ An all in one Morpheus appliance uses embedded RabbitMQ, MariaDB, and Elasticsea
       roles:
         - ansible-role-morpheus
 
-## External Database
+### Highly Available Appliance 
+
+This role can install Morpheus as a highly available set.
+
+NOTE: An external MySQL compatible database is required to run multiple appliances.
+
+#### Required Variables
+
+- `appliance_url`
+- `morpheus_mysql_external` - see External Database below for more details
+
+#### Usage
+
+Set `appliance_url` to the load balancer DNS name that will point to your appliance hosts.
+Put your appliance hosts in the inventory under the `morpheus_group` group.
+
+## External Database 
+
+### Single Master
 
 If you have an external MySQL 5.7 compatible database to use, you can specify the connection parameters for Morpheus to use.
 
+#### Required Variables
+
+- `morpheus_mysql_external`
+- `morpheus_db_group`
+- `morpheus_db`
+- `morpheus_db_user`
+- `morpheus_db_pass`
+
+#### Usage
+
+Setting `morpheus_mysql_external` to true disables initial installation of the embedded MySQL package in Morpheus.
+Define your external database master in the `morpheus_db_group` group in the inventory.  This will get its facts and define the configuration appropriately.  
+For database creation, create `morpheus_db_user` with `morpheus_db_pass`, create `morpheus_db` and give the user the following MySQL privileges.
+- `*.*:SELECT,PROCESS,SHOW DATABASES/{{morpheus_db}}.*:ALL`
+
+When the initial Morpheus reconfigure is run, Morpheus will create the table structure.  For additional details, visit https://docs.morpheusdata.com
+
+### Percona XtraDB Database Cluster
+
+This role enables you to use a Percona XtraDB cluster.
+
+#### Required Variables
+
+- `morpheus_mysql_external`
+- `morpheus_db_group`
+- `morpheus_db`
+- `morpheus_db_user`
+- `morpheus_db_pass`
+
+#### Usage
+
+Set `morpheus_mysql_external` to true to disable the embedded MySQL.  
+Define all the database cluster members in the inventory as part of the `morpheus_db_group` group.
+Set `morpheus_db_url_override` to true to enable usage of a JDBC string in the Morpheus configuration.
+For percona, we recommend the following string in `morpheus_db_url_override_options`: 
+- `"/{{ morpheus_db }}?autoReconnect=true&useUnicode=true&characterEncoding=utf8&failOverReadOnly=false&useSSL=false"`
+
+If you need to install a Percona clustered database, take a look at https://github.com/ncelebic/ansible-role-XtraDB-Cluster
+
+## External Elasticsearch
+
+This role enables you to use an external Elasticsearch cluster.
+
+NOTE: See https://docs.morpheusdata.com for the version requirements for Elasticsearch
+
 ### Required Variables
 
-`morpheus_mysql_external`
+- `morpheus_elastic_external`
+- `morpheus_elastic_cluster_name`
+- `morpheus_elastic_tls`
+- `morpheus_elastic_hosts`
 
-`morpheus_db_group`
+### Usage
 
-`morpheus_db`
+Set `morpheus_elastic_external` to true to disable the embedded Elasticsearch and set the name in `morpheus_elastic_cluster_name`.
+If using TLS, set `morpheus_elastic_tls` to true.
+Define all Elasticsearch hosts and ports in `morpheus_elastic_hosts`. eg.
+    
+    morpheus_elastic_hosts:
+      - host: "myelastichost.example.com"
+        port: 443
+       
+## External RabbitMQ
 
-`morpheus_db_user`
+This role enables you to use an external RabbitMQ cluster.
 
-`morpheus_db_pass`
+### Required Variables
+
+- `morpheus_rabbitmq_external`
+- `morpheus_rabbitmq_lb`
+- `morpheus_rabbitmq_user`
+- `morpheus_rabbitmq_password`
+- `morpheus_rabbitmq_vhost`
+
+### Usage 
+
+Set `morpheus_rabbit_external` to true to disable the embedded RabbitMQ.
+Set `morpheus_rabbitmq_user` and `morpheus_rabbitmq_password` to the credentials that have access to the `morpheus_rabbitmq_vhost` vhost in RabbitMQ.
+The vhost queues must have certain policies on them for Morpheus, see https://docs.morpheusdata.com/en/4.1.2/getting_started/installation/distributed/full/rabbitmq.html#rabbitmq-cluster for details.
+The role https://github.com/ncelebic/ansible-role-rabbitmq-cluster can set up a RabbitMQ cluster and set the vhost and policies for you.
+If desired, you can run RabbitMQ externally on the same hosts as the Application/UI nodes.  If you do, set the `morpheus_rabbitmq_lb` to 127.0.0.1 and the UI nodes will use their own local clustered node for queue communication.
 
 ## License
 

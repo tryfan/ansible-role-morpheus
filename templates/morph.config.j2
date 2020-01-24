@@ -12,13 +12,13 @@ mysql['morpheus_password'] = '{{ morpheus_db_pass }}'
 {% endif %}
 {% if morpheus_rabbitmq_external == true %}
 rabbitmq['enable'] = false
-rabbitmq['vhost'] = '{{ rabbitmq_vhost_name }}'
-rabbitmq['queue_user'] = '{{ rabbitmq_user }}'
-rabbitmq['queue_user_password'] = '{{ rabbitmq_password }}'
+rabbitmq['vhost'] = '{{ morpheus_rabbitmq_vhost }}'
+rabbitmq['queue_user'] = '{{ morpheus_rabbitmq_user }}'
+rabbitmq['queue_user_password'] = '{{ morpheus_rabbitmq_password }}'
 rabbitmq['host'] = '{{ morpheus_rabbitmq_lb }}'
-rabbitmq['port'] = '5672'
-rabbitmq['stomp_port'] = '61613'
-rabbitmq['heartbeat'] = 50
+rabbitmq['port'] = '{{ morpheus_rabbitmq_port }}'
+rabbitmq['stomp_port'] = '{{ morpheus_rabbitmq_stomp_port }}'
+rabbitmq['heartbeat'] = '{{ morpheus_rabbitmq_heartbeat }}'
 {% else %}
 {% if groups[morpheus_group] | length > 1 and morpheus_rabbitmq_external == false %}
 rabbitmq['host'] = '0.0.0.0'
