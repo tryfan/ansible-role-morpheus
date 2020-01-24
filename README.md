@@ -1,3 +1,7 @@
+# Morpheus
+
+Morpheus Cloud Management Platform
+
 - [Morpheus](#morpheus)
   * [Description](#description)
   * [Role Variables](#role-variables)
@@ -24,10 +28,6 @@
     + [Usage](#usage-5)
   * [License](#license)
   * [Author Information](#author-information)
-
-# Morpheus
-
-Installation of Morpheus
 
 ## Description
 
