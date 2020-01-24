@@ -103,6 +103,7 @@ NOTE: An external MySQL compatible database is required to run multiple applianc
 #### Usage
 
 Set `appliance_url` to the load balancer DNS name that will point to your appliance hosts.
+
 Put your appliance hosts in the inventory under the `morpheus_group` group.
 
 ## External Database 
@@ -122,7 +123,9 @@ If you have an external MySQL 5.7 compatible database to use, you can specify th
 #### Usage
 
 Setting `morpheus_mysql_external` to true disables initial installation of the embedded MySQL package in Morpheus.
+
 Define your external database master in the `morpheus_db_group` group in the inventory.  This will get its facts and define the configuration appropriately.  
+
 For database creation, create `morpheus_db_user` with `morpheus_db_pass`, create `morpheus_db` and give the user the following MySQL privileges.
 - `*.*:SELECT,PROCESS,SHOW DATABASES/{{morpheus_db}}.*:ALL`
 
@@ -143,7 +146,10 @@ This role enables you to use a Percona XtraDB cluster.
 #### Usage
 
 Set `morpheus_mysql_external` to true to disable the embedded MySQL.  
+
 Define all the database cluster members in the inventory as part of the `morpheus_db_group` group.
+
+
 Set `morpheus_db_url_override` to true to enable usage of a JDBC string in the Morpheus configuration.
 For percona, we recommend the following string in `morpheus_db_url_override_options`: 
 - `"/{{ morpheus_db }}?autoReconnect=true&useUnicode=true&characterEncoding=utf8&failOverReadOnly=false&useSSL=false"`
@@ -166,7 +172,9 @@ NOTE: See https://docs.morpheusdata.com for the version requirements for Elastic
 ### Usage
 
 Set `morpheus_elastic_external` to true to disable the embedded Elasticsearch and set the name in `morpheus_elastic_cluster_name`.
+
 If using TLS, set `morpheus_elastic_tls` to true.
+
 Define all Elasticsearch hosts and ports in `morpheus_elastic_hosts`. eg.
     
     morpheus_elastic_hosts:
@@ -188,9 +196,13 @@ This role enables you to use an external RabbitMQ cluster.
 ### Usage 
 
 Set `morpheus_rabbit_external` to true to disable the embedded RabbitMQ.
+
 Set `morpheus_rabbitmq_user` and `morpheus_rabbitmq_password` to the credentials that have access to the `morpheus_rabbitmq_vhost` vhost in RabbitMQ.
+
 The vhost queues must have certain policies on them for Morpheus, see https://docs.morpheusdata.com/en/4.1.2/getting_started/installation/distributed/full/rabbitmq.html#rabbitmq-cluster for details.
+
 The role https://github.com/ncelebic/ansible-role-rabbitmq-cluster can set up a RabbitMQ cluster and set the vhost and policies for you.
+
 If desired, you can run RabbitMQ externally on the same hosts as the Application/UI nodes.  If you do, set the `morpheus_rabbitmq_lb` to 127.0.0.1 and the UI nodes will use their own local clustered node for queue communication.
 
 ## License
