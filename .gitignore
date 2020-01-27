@@ -2,3 +2,4 @@ venv
 .idea
 test*
 .yamllint
+examples/**/inventory
