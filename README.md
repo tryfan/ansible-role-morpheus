@@ -66,7 +66,7 @@ Both all in one and HA deployments have only been tested against Morpheus 4.1.2.
 |`morpheus_db_user`|N|`morpheus`|Morpheus database user|
 |`morpheus_db_pass`|N|`Pa55w0rd!`|Morpheus database password|
 |`morpheus_db_port`|N|`3306`|Morpheus database port|
-|`morpheus_db_url_override`|N|`false`|Enable Morpheus database URL override for JDBC connection strings and options.| 
+|`morpheus_db_url_override`|N|`false`|Enable Morpheus database URL override for JDBC connection strings and options.|
 |`morpheus_db_url_override_options`|N|`""`|If JDBC override is required, this is the strong on the end of the URL.|
 <!-- TODO: Make sure to include a section for external DB to explain the url override -->
 
@@ -96,7 +96,7 @@ Set `morpheus_appliance_url` to the DNS name of your appliance.  This can be a C
       roles:
         - ansible-role-morpheus
 
-### Highly Available Appliance 
+### Highly Available Appliance
 
 This role can install Morpheus as a highly available set.
 
@@ -137,7 +137,7 @@ For database creation, create `morpheus_db_user` with `morpheus_db_pass`, create
 
 - `*.*:SELECT,PROCESS,SHOW DATABASES/{{morpheus_db}}.*:ALL`
 
-When the initial Morpheus reconfigure is run, Morpheus will create the table structure.  For additional details, visit https://docs.morpheusdata.com
+When the initial Morpheus reconfigure is run, Morpheus will create the table structure.  For additional details, visit <https://docs.morpheusdata.com>
 
 ### Percona XtraDB Database Cluster
 
