@@ -1,5 +1,5 @@
 ---
-- name: Initial Morpheus Reconfigure one host at a time
+- name: Morpheus Reconfigure one host at a time
   command: morpheus-ctl reconfigure
   args:
     creates: /etc/morpheus/morpheus-secrets.json
@@ -18,4 +18,3 @@
   retries: 30
   delay: 30
   loop: "{{ groups[morpheus_group] }}"
-  run_once: true

@@ -1,6 +1,6 @@
 ---
 # defaults file for morpheus
-appliance_url: "https://morpheus.example.com"
+morpheus_appliance_url: "https://morpheus.example.com"
 morpheus_mysql_external: false
 morpheus_elastic_external: false
 morpheus_package_centos: https://downloads.morpheusdata.com/files/morpheus-appliance-4.1.2-1.el7.x86_64.rpm
@@ -11,7 +11,8 @@ morpheus_offline_package_ubuntu: https://downloads.morpheusdata.com/files/morphe
 morpheus_group: morpheus
 morpheus_db_group: db
 
-initial_config: false
+morpheus_upgrade_flag: false
+morpheus_package_state: present
 
 morpheus_rabbitmq_external_cookie: ""
 morpheus_elastic_tls: false
