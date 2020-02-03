@@ -1,12 +1,23 @@
 ---
+- name: Upgrade flag check
+  set_fact:
+    morpheus_package_state: latest
+  when: morpheus_upgrade_flag
+
+- name: Check if morpheus is installed
+  package:
+    name: morpheus-appliance
+    state: present
+  check_mode: true
+  ignore_errors: true
+  register: morpheus_package_check
+
 - name: Morpheus UI | Install Morpheus
   apt:
-      name: "{{ morpheus_package_ubuntu }}"
+      deb: "{{ morpheus_package_ubuntu }}"
       state: present
-  notify: Morpheus Reconfigure
 
 - name: Morpheus UI | Install Morpheus Offline
   apt:
-      name: "{{ morpheus_offline_package_ubuntu }}"
+      deb: "{{ morpheus_offline_package_ubuntu }}"
       state: present
-  notify: Morpheus Reconfigure

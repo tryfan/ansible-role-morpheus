@@ -1,12 +1,15 @@
 ---
-- name: Run Reconfigure
+- name: Run Morpheus reconfigure one host at a time
   command: morpheus-ctl reconfigure
   args:
     creates: /etc/morpheus/morpheus-secrets.json
   async: 900
   poll: 10
+  delegate_to: "{{ item }}"
+  loop: "{{ groups[morpheus_group] }}"
+  run_once: true
 
-- name: check URI
+- name: Check for morpheus/ping
   uri:
     url: "http://{{ item }}/ping"
     return_content: true
@@ -14,3 +17,5 @@
   until: '"MORPHEUS PING" in urlcontent.content'
   retries: 30
   delay: 30
+  loop: "{{ groups[morpheus_group] }}"
+  run_once: true

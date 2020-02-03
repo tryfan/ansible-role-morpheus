@@ -1,4 +1,4 @@
-appliance_url: "https://{{ play_hosts[0] }}"
+morpheus_appliance_url: "https://{{ play_hosts[0] }}"
 morpheus_package_centos: https://downloads.morpheusdata.com/files/morpheus-appliance-4.1.2-1.el7.x86_64.rpm
 morpheus_offline_package_centos: https://downloads.morpheusdata.com/files/morpheus-appliance-offline-4.1.2-1.noarch.rpm
 

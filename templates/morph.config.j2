@@ -1,4 +1,4 @@
-appliance_url '{{ appliance_url }}'
+appliance_url '{{ morpheus_appliance_url }}'
 {% if morpheus_mysql_external == true %}
 mysql['enable'] = false
 {% if morpheus_db_url_override == true %}

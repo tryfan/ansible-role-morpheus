@@ -3,43 +3,50 @@
 Morpheus Cloud Management Platform
 
 - [Morpheus](#morpheus)
-  * [Description](#description)
-  * [Role Variables](#role-variables)
-  * [Morpheus Installation](#morpheus-installation)
-    + [All in One Appliance](#all-in-one-appliance)
+  - [Description](#description)
+  - [Supported Versions](#supported-versions)
+  - [Role Variables](#role-variables)
+  - [Morpheus Installation](#morpheus-installation)
+    - [All in One Appliance](#all-in-one-appliance)
       - [Required Variables](#required-variables)
       - [Usage](#usage)
       - [Example Playbook](#example-playbook)
-    + [Highly Available Appliance](#highly-available-appliance)
+    - [Highly Available Appliance](#highly-available-appliance)
       - [Required Variables](#required-variables-1)
       - [Usage](#usage-1)
-  * [External Database](#external-database)
-    + [Single Master](#single-master)
+  - [External Database](#external-database)
+    - [Single Master](#single-master)
       - [Required Variables](#required-variables-2)
       - [Usage](#usage-2)
-    + [Percona XtraDB Database Cluster](#percona-xtradb-database-cluster)
+    - [Percona XtraDB Database Cluster](#percona-xtradb-database-cluster)
       - [Required Variables](#required-variables-3)
       - [Usage](#usage-3)
-  * [External Elasticsearch](#external-elasticsearch)
-    + [Required Variables](#required-variables-4)
-    + [Usage](#usage-4)
-  * [External RabbitMQ](#external-rabbitmq)
-    + [Required Variables](#required-variables-5)
-    + [Usage](#usage-5)
-  * [License](#license)
-  * [Author Information](#author-information)
+  - [External Elasticsearch](#external-elasticsearch)
+    - [Required Variables](#required-variables-4)
+    - [Usage](#usage-4)
+  - [External RabbitMQ](#external-rabbitmq)
+    - [Required Variables](#required-variables-5)
+    - [Usage](#usage-5)
+  - [License](#license)
+  - [Author Information](#author-information)
 
 ## Description
 
 This role will deploy Morpheus onto an EL or Ubuntu based platform.
-The only required variable for deploying a single appliance is `appliance_url`
+The only required variable for deploying a single appliance is `morpheus_appliance_url`
+
+NOTE: The ansible-role-rabbitmq-cluster role will not work on Ubuntu because of a problem with their PackageCloud repositories.  If installing
+on Ubuntu, only the single node appliance is supported with these roles.
+
+## Supported Versions
+
+Both all in one and HA deployments have only been tested against Morpheus 4.1.2.  All in one should work with almost any version, but it has not been tested.
 
 ## Role Variables
 
-
 |Variable|Required|Default|Description|
 |--------|--------|-------|-----------|
-|`appliance_url`|Y|`https://morpheus.example.com`|URL of the appliance/load balancer|
+|`morpheus_appliance_url`|Y|`https://morpheus.example.com`|URL of the appliance/load balancer|
 |`morpheus_package_centos`|N|`https://downloads.morpheusdata.com/files/morpheus-appliance-4.1.2-1.el7.x86_64.rpm`|Morpheus Appliance RPM|
 |`morpheus_offline_package_centos`|N|`https://downloads.morpheusdata.com/files/morpheus-appliance-offline-4.1.2-1.noarch.rpm`|Morpheus Offline RPM; This package contains packages that the Morpheus installer would otherwise pull down.|
 |`morpheus_package_ubuntu`|N|`https://downloads.morpheusdata.com/files/morpheus-appliance_4.1.2-1_amd64.deb`|Morpheus Appliance DEB|
@@ -74,10 +81,10 @@ An all in one Morpheus appliance uses embedded RabbitMQ, MariaDB, and Elasticsea
 
 #### Required Variables
 
-- `appliance_url`
+- `morpheus_appliance_url`
 
 #### Usage
-Set `appliance_url` to the DNS name of your appliance.  This can be a CNAME.
+Set `morpheus_appliance_url` to the DNS name of your appliance.  This can be a CNAME.
 
 #### Example Playbook
 
@@ -85,7 +92,7 @@ Set `appliance_url` to the DNS name of your appliance.  This can be a CNAME.
       gather_facts: true
       become: true
       vars:
-        appliance_url: "https://morpheus.home.localdomain"
+        morpheus_appliance_url: "https://morpheus.home.localdomain"
       roles:
         - ansible-role-morpheus
 
@@ -97,12 +104,12 @@ NOTE: An external MySQL compatible database is required to run multiple applianc
 
 #### Required Variables
 
-- `appliance_url`
+- `morpheus_appliance_url`
 - `morpheus_mysql_external` - see External Database below for more details
 
 #### Usage
 
-Set `appliance_url` to the load balancer DNS name that will point to your appliance hosts.
+Set `morpheus_appliance_url` to the load balancer DNS name that will point to your appliance hosts.
 
 Put your appliance hosts in the inventory under the `morpheus_group` group.
 
@@ -127,6 +134,7 @@ Setting `morpheus_mysql_external` to true disables initial installation of the e
 Define your external database master in the `morpheus_db_group` group in the inventory.  This will get its facts and define the configuration appropriately.  
 
 For database creation, create `morpheus_db_user` with `morpheus_db_pass`, create `morpheus_db` and give the user the following MySQL privileges.
+
 - `*.*:SELECT,PROCESS,SHOW DATABASES/{{morpheus_db}}.*:ALL`
 
 When the initial Morpheus reconfigure is run, Morpheus will create the table structure.  For additional details, visit https://docs.morpheusdata.com
@@ -149,18 +157,18 @@ Set `morpheus_mysql_external` to true to disable the embedded MySQL.
 
 Define all the database cluster members in the inventory as part of the `morpheus_db_group` group.
 
-
 Set `morpheus_db_url_override` to true to enable usage of a JDBC string in the Morpheus configuration.
-For percona, we recommend the following string in `morpheus_db_url_override_options`: 
+For percona, we recommend the following string in `morpheus_db_url_override_options`:
+
 - `"/{{ morpheus_db }}?autoReconnect=true&useUnicode=true&characterEncoding=utf8&failOverReadOnly=false&useSSL=false"`
 
-If you need to install a Percona clustered database, take a look at https://github.com/ncelebic/ansible-role-XtraDB-Cluster
+If you need to install a Percona clustered database, take a look at <https://github.com/ncelebic/ansible-role-XtraDB-Cluster>
 
 ## External Elasticsearch
 
 This role enables you to use an external Elasticsearch cluster.
 
-NOTE: See https://docs.morpheusdata.com for the version requirements for Elasticsearch
+NOTE: See <https://docs.morpheusdata.com> for the version requirements for Elasticsearch
 
 ### Required Variables
 
@@ -199,9 +207,9 @@ Set `morpheus_rabbit_external` to true to disable the embedded RabbitMQ.
 
 Set `morpheus_rabbitmq_user` and `morpheus_rabbitmq_password` to the credentials that have access to the `morpheus_rabbitmq_vhost` vhost in RabbitMQ.
 
-The vhost queues must have certain policies on them for Morpheus, see https://docs.morpheusdata.com/en/4.1.2/getting_started/installation/distributed/full/rabbitmq.html#rabbitmq-cluster for details.
+The vhost queues must have certain policies on them for Morpheus, see <https://docs.morpheusdata.com/en/4.1.2/getting_started/installation/distributed/full/rabbitmq.html#rabbitmq-cluster> for details.
 
-The role https://github.com/ncelebic/ansible-role-rabbitmq-cluster can set up a RabbitMQ cluster and set the vhost and policies for you.
+The role <https://github.com/ncelebic/ansible-role-rabbitmq-cluster> can set up a RabbitMQ cluster and set the vhost and policies for you.
 
 If desired, you can run RabbitMQ externally on the same hosts as the Application/UI nodes.  If you do, set the `morpheus_rabbitmq_lb` to 127.0.0.1 and the UI nodes will use their own local clustered node for queue communication.
 
@@ -212,4 +220,4 @@ MIT
 ## Author Information
 
 Nick Celebic
-https://github.com/ncelebic
+<https://github.com/ncelebic>

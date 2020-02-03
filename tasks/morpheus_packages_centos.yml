@@ -1,12 +1,27 @@
 ---
-- name: Morpheus UI | Install Morpheus
-  yum:
-      name: "{{ morpheus_package_centos }}"
-      state: present
-#  notify: Morpheus Package Reconfigure
+# This is required because the rpm does not come from a repository, so ansible will always install a newer version
+- name: Upgrade flag check
+  set_fact:
+    morpheus_package_state: latest
+  when: morpheus_upgrade_flag
 
-- name: Morpheus UI | Install Morpheus Offline
-  yum:
-      name: "{{ morpheus_offline_package_centos }}"
-      state: present
-#  notify: Morpheus Package Reconfigure
+- name: Check if morpheus is installed
+  package:
+    name: morpheus-appliance
+    state: present
+  check_mode: true
+  ignore_errors: true
+  register: morpheus_package_check
+
+- block:
+  - name: Morpheus UI | Install Morpheus
+    yum:
+        name: "{{ morpheus_package_centos }}"
+        state: present
+
+  - name: Morpheus UI | Install Morpheus Offline
+    yum:
+        name: "{{ morpheus_offline_package_centos }}"
+        state: present
+  when: ("No package matching" in morpheus_package_check.msg) or
+        (morpheus_upgrade_flag)
