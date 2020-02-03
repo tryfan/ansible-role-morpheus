@@ -70,7 +70,6 @@ Both all in one and HA deployments have only been tested against Morpheus 4.1.2.
 |`morpheus_db_url_override_options`|N|`""`|If JDBC override is required, this is the strong on the end of the URL.|
 <!-- TODO: Make sure to include a section for external DB to explain the url override -->
 
-
 ## Morpheus Installation
 
 This role downloads and installs the Morpheus Cloud Management Platform
@@ -84,6 +83,7 @@ An all in one Morpheus appliance uses embedded RabbitMQ, MariaDB, and Elasticsea
 - `morpheus_appliance_url`
 
 #### Usage
+
 Set `morpheus_appliance_url` to the DNS name of your appliance.  This can be a CNAME.
 
 #### Example Playbook
@@ -113,7 +113,7 @@ Set `morpheus_appliance_url` to the load balancer DNS name that will point to yo
 
 Put your appliance hosts in the inventory under the `morpheus_group` group.
 
-## External Database 
+## External Database
 
 ### Single Master
 
@@ -184,11 +184,11 @@ Set `morpheus_elastic_external` to true to disable the embedded Elasticsearch an
 If using TLS, set `morpheus_elastic_tls` to true.
 
 Define all Elasticsearch hosts and ports in `morpheus_elastic_hosts`. eg.
-    
+
     morpheus_elastic_hosts:
       - host: "myelastichost.example.com"
         port: 443
-       
+
 ## External RabbitMQ
 
 This role enables you to use an external RabbitMQ cluster.
