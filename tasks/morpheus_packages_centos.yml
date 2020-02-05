@@ -5,13 +5,9 @@
     morpheus_package_state: latest
   when: morpheus_upgrade_flag
 
-- name: Check if morpheus is installed
-  package:
-    name: morpheus-appliance
-    state: present
-  check_mode: true
-  ignore_errors: true
-  register: morpheus_package_check
+- name: Gather package facts
+  package_facts:
+    manager: auto
 
 - block:
   - name: Morpheus UI | Install Morpheus
@@ -23,5 +19,5 @@
     yum:
         name: "{{ morpheus_offline_package_centos }}"
         state: present
-  when: ("No package matching" in morpheus_package_check.msg) or
+  when: ('morpheus-appliance' not in ansible_facts.packages) or
         (morpheus_upgrade_flag)
