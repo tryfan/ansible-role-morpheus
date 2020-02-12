@@ -5,13 +5,6 @@
     dest: /etc/morpheus/morpheus.rb
   register: configpush
 
-## TODO Remove when version morpheus 4.1.2-2 is released
-- name: patch installer for ES clustering issue
-  copy:
-    src: files/elasticsearch.erb
-    dest: /opt/morpheus/embedded/cookbooks/morpheus-solo/templates/default/elasticsearch.erb
-  when: groups[morpheus_group] | length > 1
-
 - name: Reconfigure hosts
   include_tasks: morpheus_run_reconfigure.yml
   # when: ( initial_config == false )
