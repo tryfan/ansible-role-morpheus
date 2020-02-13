@@ -7,4 +7,8 @@
 
 - name: Reconfigure hosts
   include_tasks: morpheus_run_reconfigure.yml
-  # when: ( initial_config == false )
+  when: ( morpheus_upgrade_flag == false )
+
+- name: Upgrade Morpheus
+  include_tasks: morpheus_upgrade.yml
+  when: ( morpheus_upgrade_flag == true )

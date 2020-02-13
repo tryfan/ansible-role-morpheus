@@ -12,6 +12,8 @@ morpheus_group: morpheus
 morpheus_db_group: db
 
 morpheus_upgrade_flag: false
+morpheus_down_string: "ok: down: morpheus-ui"
+morpheus_check_down_string: "down: morpheus-ui"
 morpheus_package_state: present
 
 morpheus_rabbitmq_external_cookie: ""

@@ -1,0 +1,38 @@
+---
+- name: Stop and confirm morpheus-ui down
+  block:
+    - name: Stop morpheus-ui
+      command: morpheus-ctl stop morpheus-ui
+      register: uistopcmd
+      retries: 5
+      until: uistopcmd.stdout.find(morpheus_down_string)
+      delay: 5
+      ignore_errors: true
+
+    - name: Confirm morpheus-ui down
+      command: morpheus-ctl status morpheus-ui
+      register: uistopcheckcmd
+      failed_when: not uistopcheckcmd.stdout.find(morpheus_check_down_string)
+      ignore_erros: true
+
+    - name: Gracefully kill morpheus-ui if all else fails
+      command: morpheus-ctl graceful-kill morpheus-ui
+      when: uistopcheckcmd.failed
+
+- name: Run Morpheus reconfigure
+  command: morpheus-ctl reconfigure
+  async: 900
+  poll: 10
+
+- name: Start morpheus-ui
+  command: morpheus-ctl start morpheus-ui
+
+- name: Check for morpheus/ping
+  uri:
+    url: "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}/ping"
+    return_content: true
+  register: urlcontent
+  until: '"MORPHEUS PING" in urlcontent.content'
+  retries: 30
+  delay: 30
+
