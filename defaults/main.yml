@@ -37,3 +37,4 @@ morpheus_rabbitmq_vhost: morpheus
 morpheus_rabbitmq_port: 5672
 morpheus_rabbitmq_stomp_port: 61613
 morpheus_rabbitmq_heartbeat: 50
+morpheus_rabbitmq_use_tls: false

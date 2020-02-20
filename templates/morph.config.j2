@@ -25,6 +25,10 @@ rabbitmq['host'] = '0.0.0.0'
 rabbitmq['nodename'] = rabbit@{{ ansible_hostname }}
 {% endif %}
 {% endif %}
+{% if morpheus_rabbitmq_use_tls %}
+rabbitmq['use_tls'] = true
+{% endif %}
+
 {% if morpheus_elastic_external == true %}
 elasticsearch['enable'] = false
 elasticsearch['cluster'] = '{{ morpheus_elastic_cluster_name }}'
