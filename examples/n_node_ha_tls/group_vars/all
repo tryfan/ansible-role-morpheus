@@ -12,12 +12,17 @@ rabbitmq_mgmt_user: morpheus
 rabbitmq_mgmt_password: morphpass
 rabbitmq_user: rabbitmquser
 rabbitmq_password: rabbitmqpassword
+morpheus_rabbitmq_port: 5671
+morpheus_rabbitmq_stomp_port: 61614
+rabbitmq_tls_enable: true
+rabbitmq_tls_generate_self_signed_cert: true
 
 morpheus_rabbitmq_external: true
 morpheus_rabbitmq_lb: 127.0.0.1
 morpheus_rabbitmq_user: "{{ rabbitmq_user }}"
 morpheus_rabbitmq_password: "{{ rabbitmq_password }}"
 morpheus_rabbitmq_vhost: "{{ rabbitmq_vhost_name }}"
+morpheus_rabbitmq_use_tls: true
 
 morpheus_mysql_external: true
 morpheus_db_group: db
@@ -41,6 +46,14 @@ xtradb_wsrep_cluster_address: "gcomm://{{ groups[xtradb_nodes_group] | map('extr
 xtradb_master_node: "{{ hostvars[ groups[xtradb_nodes_group][0] ].ansible_default_ipv4.address }}"
 xtradb_pxc_strict_mode: "PERMISSIVE"
 xtradb_wsrep_sync_wait: 2
+
+xtradb_tls_enabled: true
+
+# Boolean for self-signed certificates
+xtradb_tls_self_signed: true
+
+# Disallow non-SSL clients
+xtradb_ssl_client_only: true
 
 xtradb_databases:
     - name: "{{morpheus_db}}"
