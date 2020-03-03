@@ -1,6 +1,7 @@
 ---
 # defaults file for morpheus
 morpheus_appliance_url: "https://morpheus.example.com"
+morpheus_use_custom_repo: false
 morpheus_mysql_external: false
 morpheus_elastic_external: false
 morpheus_package_centos: https://downloads.morpheusdata.com/files/morpheus-appliance-4.1.2-2.el7.x86_64.rpm
