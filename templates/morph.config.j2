@@ -1,4 +1,7 @@
 appliance_url '{{ morpheus_appliance_url }}'
+{% if morpheus_use_custom_repo == true %}
+repo['repo_host_url'] = '{{ morpheus_custom_repo }}'
+{% endif %}
 {% if morpheus_mysql_external == true %}
 mysql['enable'] = false
 {% if morpheus_db_url_override == true %}

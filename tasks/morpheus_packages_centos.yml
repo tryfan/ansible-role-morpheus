@@ -19,5 +19,7 @@
     yum:
         name: "{{ morpheus_offline_package_centos }}"
         state: present
+    when: morpheus_use_offline_package
+
   when: ('morpheus-appliance' not in ansible_facts.packages) or
         (morpheus_upgrade_flag)
