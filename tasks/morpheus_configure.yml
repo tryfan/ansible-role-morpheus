@@ -5,18 +5,20 @@
     dest: /etc/morpheus/morpheus.rb
   register: configpush
 
-- name: Push the CA
-  copy:
-    src: "{{ rabbitmq_tls_custom_cabundle_filename }}"
-    dest: "/tmp/{{ rabbitmq_tls_custom_cabundle_filename }}"
+- block:
+  - name: Push the CA
+    copy:
+      src: "{{ rabbitmq_tls_custom_cabundle_filename }}"
+      dest: "/tmp/{{ rabbitmq_tls_custom_cabundle_filename }}"
 
-- name: Register CA in keystore
-  command: "/opt/morpheus/embedded/java/bin/keytool -import -keystore /opt/morpheus/embedded/java/lib/security/cacerts --trustcacerts -file /tmp/{{ rabbitmq_tls_custom_cabundle_filename }} -storepass changeit -noprompt"
-  register: ca_output
-  retries: 2
-  until: "'Certificate was added to keystore' in ca_output.stderr or 'already exists' in ca_output.stdout"
-  failed_when: ca_output.rc != 0 and ca_output.rc != 1
-  changed_when: "'Certificate was added to keystore' in ca_output.stderr"
+  - name: Register CA in keystore
+    command: "/opt/morpheus/embedded/java/bin/keytool -import -keystore /opt/morpheus/embedded/java/lib/security/cacerts --trustcacerts -file /tmp/{{ rabbitmq_tls_custom_cabundle_filename }} -storepass changeit -noprompt"
+    register: ca_output
+    retries: 2
+    until: "'Certificate was added to keystore' in ca_output.stderr or 'already exists' in ca_output.stdout"
+    failed_when: ca_output.rc != 0 and ca_output.rc != 1
+    changed_when: "'Certificate was added to keystore' in ca_output.stderr"
+  when: rabbitmq_tls_enable
 
 - name: Reconfigure hosts
   include_tasks: morpheus_run_reconfigure.yml
