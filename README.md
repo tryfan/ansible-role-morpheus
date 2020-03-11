@@ -51,6 +51,7 @@ Both all in one and HA deployments have only been tested against Morpheus 4.1.2.
 |`morpheus_offline_package_centos`|N|`https://downloads.morpheusdata.com/files/morpheus-appliance-offline-4.1.2-1.noarch.rpm`|Morpheus Offline RPM; This package contains packages that the Morpheus installer would otherwise pull down.|
 |`morpheus_package_ubuntu`|N|`https://downloads.morpheusdata.com/files/morpheus-appliance_4.1.2-1_amd64.deb`|Morpheus Appliance DEB|
 |`morpheus_offline_package_ubuntu`|N|`https://downloads.morpheusdata.com/files/morpheus-appliance-offline_4.1.2-1_all.deb`|Morpheus Offline DEB; This package contains packages that the Morpheus installer would otherwise pull down.|
+|`morpheus_use_offline_package`|N|`true`|Whether to download and install the offline package for installation|
 |`morpheus_group`|Y|`morpheus`|Inventory group name for the Morpheus UI node(s)|
 |`initial_config`|N|`false`|Initial configuration flag.  If set to true and run against a morpheus group, it will reconfigure the group, regardless of morpheus-secrets.json existence.|
 |`morpheus_rabbitmq_external_cookie`|N|`""`|Custom Erlang cookie for rabbitmq if not running the ansible-role-rabbitmq-cluster role.|
