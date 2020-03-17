@@ -3,7 +3,6 @@
 morpheus_appliance_url: "https://morpheus.example.com"
 morpheus_use_custom_repo: false
 morpheus_mysql_external: false
-morpheus_elastic_external: false
 morpheus_package_centos: https://downloads.morpheusdata.com/files/morpheus-appliance-4.2.0-1.el7.x86_64.rpm
 morpheus_offline_package_centos: https://downloads.morpheusdata.com/files/morpheus-appliance-offline-4.2.0-1.noarch.rpm
 morpheus_package_ubuntu: https://downloads.morpheusdata.com/files/morpheus-appliance_4.2.0-1_amd64.deb
@@ -19,10 +18,13 @@ morpheus_check_down_string: "down: morpheus-ui"
 morpheus_package_state: present
 
 morpheus_rabbitmq_external_cookie: ""
-morpheus_elastic_tls: false
 
+morpheus_elastic_external: false
+morpheus_elastic_tls: false
 morpheus_elastic_cluster_name: morpheus
 morpheus_elastic_hosts: {}
+morpheus_elastic_auth_user: ""
+morpheus_elastic_auth_password: ""
 
 morpheus_db: morpheusdb
 morpheus_db_user: morpheus
