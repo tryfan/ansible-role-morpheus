@@ -25,6 +25,7 @@ morpheus_elastic_cluster_name: morpheus
 morpheus_elastic_hosts: {}
 morpheus_elastic_auth_user: ""
 morpheus_elastic_auth_password: ""
+morpheus_elastic_ca_file: ""
 
 morpheus_db: morpheusdb
 morpheus_db_user: morpheus
