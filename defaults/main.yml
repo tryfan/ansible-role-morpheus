@@ -2,34 +2,18 @@
 # defaults file for morpheus
 morpheus_appliance_url: "https://morpheus.example.com"
 morpheus_use_custom_repo: false
-morpheus_mysql_external: false
-morpheus_elastic_external: false
-morpheus_package_centos: https://downloads.morpheusdata.com/files/morpheus-appliance-4.2.0-1.el7.x86_64.rpm
-morpheus_offline_package_centos: https://downloads.morpheusdata.com/files/morpheus-appliance-offline-4.2.0-1.noarch.rpm
-morpheus_package_ubuntu: https://downloads.morpheusdata.com/files/morpheus-appliance_4.2.0-1_amd64.deb
-morpheus_offline_package_ubuntu: https://downloads.morpheusdata.com/files/morpheus-appliance-offline_4.2.0-1_all.deb
-morpheus_use_offline_package: true
+morpheus_package_centos: https://downloads.morpheusdata.com/files/morpheus-appliance-4.2.0-2.el7.x86_64.rpm
+morpheus_offline_package_centos: https://downloads.morpheusdata.com/files/morpheus-appliance-offline-4.2.0-2.noarch.rpm
+morpheus_package_ubuntu: https://downloads.morpheusdata.com/files/morpheus-appliance_4.2.0-2_amd64.deb
+morpheus_offline_package_ubuntu: https://downloads.morpheusdata.com/files/morpheus-appliance-offline_4.2.0-2_all.deb
+morpheus_use_offline_package: false
 
 morpheus_group: morpheus
-morpheus_db_group: db
 
 morpheus_upgrade_flag: false
+morpheus_package_state: present
 morpheus_down_string: "ok: down: morpheus-ui"
 morpheus_check_down_string: "down: morpheus-ui"
-morpheus_package_state: present
-
-morpheus_rabbitmq_external_cookie: ""
-morpheus_elastic_tls: false
-
-morpheus_elastic_cluster_name: morpheus
-morpheus_elastic_hosts: {}
-
-morpheus_db: morpheusdb
-morpheus_db_user: morpheus
-morpheus_db_pass: Pa55w0rd!
-morpheus_db_port: 3306
-morpheus_db_url_override: false
-morpheus_db_url_override_options: ""
 
 morpheus_rabbitmq_external: false
 morpheus_rabbitmq_lb: 127.0.0.1
@@ -40,3 +24,21 @@ morpheus_rabbitmq_port: 5672
 morpheus_rabbitmq_stomp_port: 61613
 morpheus_rabbitmq_heartbeat: 50
 morpheus_rabbitmq_use_tls: false
+morpheus_rabbitmq_external_cookie: ""
+
+morpheus_elastic_external: false
+morpheus_elastic_hosts: {}
+morpheus_elastic_tls: false
+morpheus_elastic_cluster_name: morpheus
+morpheus_elastic_auth_user: ""
+morpheus_elastic_auth_password: ""
+morpheus_elastic_ca_file: ""
+
+morpheus_mysql_external: false
+morpheus_db_group: db
+morpheus_db: morpheusdb
+morpheus_db_user: morpheus
+morpheus_db_pass: Pa55w0rd!
+morpheus_db_port: 3306
+morpheus_db_url_override: false
+morpheus_db_url_override_options: ""
