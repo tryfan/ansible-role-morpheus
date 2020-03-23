@@ -3,32 +3,35 @@
 Morpheus Cloud Management Platform
 
 - [Morpheus](#morpheus)
-  - [Description](#description)
-  - [Supported Versions](#supported-versions)
-  - [Role Variables](#role-variables)
-  - [Morpheus Installation](#morpheus-installation)
-    - [All in One Appliance](#all-in-one-appliance)
+  * [Description](#description)
+  * [Supported Versions](#supported-versions)
+  * [Examples](#examples)
+  * [Role Variables](#role-variables)
+    + [RabbitMQ Variables](#rabbitmq-variables)
+    + [ElasticSearch Variables](#elasticsearch-variables)
+    + [Database Variables](#database-variables)
+  * [Morpheus Installation](#morpheus-installation)
+    + [All in One Appliance](#all-in-one-appliance)
       - [Required Variables](#required-variables)
       - [Usage](#usage)
-      - [Example Playbook](#example-playbook)
-    - [Highly Available Appliance](#highly-available-appliance)
+    + [Highly Available Appliance](#highly-available-appliance)
       - [Required Variables](#required-variables-1)
       - [Usage](#usage-1)
-  - [External Database](#external-database)
-    - [Single Master](#single-master)
+  * [External Database](#external-database)
+    + [Single Master](#single-master)
       - [Required Variables](#required-variables-2)
       - [Usage](#usage-2)
-    - [Percona XtraDB Database Cluster](#percona-xtradb-database-cluster)
+    + [Percona XtraDB Database Cluster](#percona-xtradb-database-cluster)
       - [Required Variables](#required-variables-3)
       - [Usage](#usage-3)
-  - [External Elasticsearch](#external-elasticsearch)
-    - [Required Variables](#required-variables-4)
-    - [Usage](#usage-4)
-  - [External RabbitMQ](#external-rabbitmq)
-    - [Required Variables](#required-variables-5)
-    - [Usage](#usage-5)
-  - [License](#license)
-  - [Author Information](#author-information)
+  * [External Elasticsearch](#external-elasticsearch)
+    + [Required Variables](#required-variables-4)
+    + [Usage](#usage-4)
+  * [External RabbitMQ](#external-rabbitmq)
+    + [Required Variables](#required-variables-5)
+    + [Usage](#usage-5)
+  * [License](#license)
+  * [Author Information](#author-information)
 
 ## Description
 
@@ -40,7 +43,11 @@ on Ubuntu, only the single node appliance is supported with these roles.
 
 ## Supported Versions
 
-Both all in one and HA deployments have only been tested against Morpheus 4.1.2.  All in one should work with almost any version, but it has not been tested.
+Both all in one and HA deployments have only been tested against Morpheus 4.2.0.  All in one should work with almost any version, but it has not been tested.
+
+## Examples
+
+Refer to the examples repo here: https://github.com/tryfan/ansible-morpheus-examples
 
 ## Role Variables
 
@@ -48,20 +55,48 @@ Both all in one and HA deployments have only been tested against Morpheus 4.1.2.
 |--------|--------|-------|-----------|
 |`morpheus_appliance_url`|Y|`https://morpheus.example.com`|URL of the appliance/load balancer|
 |`morpheus_use_custom_repo`|N|`false`|Modify custom repo for Morpheus installation
-|`morpheus_package_centos`|N|`https://downloads.morpheusdata.com/files/morpheus-appliance-4.1.2-1.el7.x86_64.rpm`|Morpheus Appliance RPM|
-|`morpheus_offline_package_centos`|N|`https://downloads.morpheusdata.com/files/morpheus-appliance-offline-4.1.2-1.noarch.rpm`|Morpheus Offline RPM; This package contains packages that the Morpheus installer would otherwise pull down.|
-|`morpheus_package_ubuntu`|N|`https://downloads.morpheusdata.com/files/morpheus-appliance_4.1.2-1_amd64.deb`|Morpheus Appliance DEB|
-|`morpheus_offline_package_ubuntu`|N|`https://downloads.morpheusdata.com/files/morpheus-appliance-offline_4.1.2-1_all.deb`|Morpheus Offline DEB; This package contains packages that the Morpheus installer would otherwise pull down.|
+|`morpheus_package_centos`|N|`https://downloads.morpheusdata.com/files/morpheus-appliance-4.2.0-2.el7.x86_64.rpm`|Morpheus Appliance RPM|
+|`morpheus_offline_package_centos`|N|`https://downloads.morpheusdata.com/files/morpheus-appliance-offline-4.2.0-2.noarch.rpm`|Morpheus Offline RPM; This package contains packages that the Morpheus installer would otherwise pull down.|
+|`morpheus_package_ubuntu`|N|`https://downloads.morpheusdata.com/files/morpheus-appliance_4.2.0-2_amd64.deb`|Morpheus Appliance DEB|
+|`morpheus_offline_package_ubuntu`|N|`https://downloads.morpheusdata.com/files/morpheus-appliance-offline_4.2.0-2_all.deb`|Morpheus Offline DEB; This package contains packages that the Morpheus installer would otherwise pull down.|
 |`morpheus_use_offline_package`|N|`false`|Whether to download and install the offline package for installation|
 |`morpheus_group`|Y|`morpheus`|Inventory group name for the Morpheus UI node(s)|
-|`initial_config`|N|`false`|Initial configuration flag.  If set to true and run against a morpheus group, it will reconfigure the group, regardless of morpheus-secrets.json existence.|
+|`morpheus_upgrade_flag`|N|`false`|When running the playbook, an RPM is downloaded by default.  Setting this flag forces its installation|
+|`morpheus_package_state`|N|`present`|Default package state.  Modified later if `morpheus_upgrade_flag` is set|
+|`morpheus_down_string`|N|`ok: down: morpheus-ui`|Morpheus UI down string|
+|`morpheus_check_down_string`|N|`ok: down: morpheus-ui`|Morpheus UI check_down string|
+
+### RabbitMQ Variables
+
+|Variable|Required|Default|Description|
+|--------|--------|-------|-----------|
+|`morpheus_rabbitmq_external`|N|`false`|Use external RabbitMQ|
+|`morpheus_rabbitmq_lb`|N|`127.0.0.1`|RabbitMQ load balancer.  If using RabbitMQ on UI nodes, this uses it's local cluster member to communicate with the cluster.|
+|`morpheus_rabbitmq_user`|N|`morpheus`|RabbitMQ User|
+|`morpheus_rabbitmq_password`|N|`rabbitmqmorpheuspass`|RabbitMQ Password|
+|`morpheus_rabbitmq_vhost`|N|`morpheus`|RabbitMQ vhost|
+|`morpheus_rabbitmq_port`|N|`5672`|RabbitMQ Port|
+|`morpheus_rabbitmq_stomp_port`|N|`61613`|RabbitMQ Stomp Port|
+|`morpheus_rabbitmq_heartbeat`|N|`50`|RabbitMQ Heartbeat timeout|
+|`morpheus_rabbitmq_use_tls`|N|`false`|Enable RabbitMQ TLS|
 |`morpheus_rabbitmq_external_cookie`|N|`""`|Custom Erlang cookie for rabbitmq if not running the ansible-role-rabbitmq-cluster role.|
+
+### ElasticSearch Variables
+
+|Variable|Required|Default|Description|
+|--------|--------|-------|-----------|
 |`morpheus_elastic_external`|N|`false`|Use external Elasticsearch|
 |`morpheus_elastic_hosts`|N|`{}`|List of dictionaries describing Elasticsearch hosts.  Args: `host`, `port`|
 |`morpheus_elastic_tls`|N|`false`|Use TLS with Elasticsearch|
 |`morpheus_elastic_cluster_name`|N|`morpheus`|Elasticsearch cluster name, only used for external ES|
-|`morpheus_rabbitmq_external`|N|`false`|Use external RabbitMQ|
-|`morpheus_rabbitmq_lb`|N|`127.0.0.1`|RabbitMQ load balancer.  If using RabbitMQ on UI nodes, this uses it's local cluster member to communicate with the cluster.|
+|`morpheus_elastic_auth_user`|N|`""`|User for Elasticsearch, if required|
+|`morpheus_elastic_auth_password`|N|`""`|Password for Elasticsearch, if required|
+|`morpheus_elastic_ca_file`|N|`""`|Elasticsearch CA file, if required|
+
+### Database Variables
+
+|Variable|Required|Default|Description|
+|--------|--------|-------|-----------|
 |`morpheus_mysql_external`|N|`false`|Use external MySQL compatible DB and do not install embedded MySQL|
 |`morpheus_db_group`|N|`db`|Inventory group name for the database node(s)|
 |`morpheus_db`|N|`morpheusdb`|Morpheus database name|
@@ -87,16 +122,6 @@ An all in one Morpheus appliance uses embedded RabbitMQ, MariaDB, and Elasticsea
 #### Usage
 
 Set `morpheus_appliance_url` to the DNS name of your appliance.  This can be a CNAME.
-
-#### Example Playbook
-
-    - hosts: morpheus
-      gather_facts: true
-      become: true
-      vars:
-        morpheus_appliance_url: "https://morpheus.home.localdomain"
-      roles:
-        - ansible-role-morpheus
 
 ### Highly Available Appliance
 
