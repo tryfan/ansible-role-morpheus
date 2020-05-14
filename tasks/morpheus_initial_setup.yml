@@ -1,0 +1,37 @@
+---
+- name: Create initial setup JSON payload
+  set_fact:
+    morpheus_setup_payload:
+      applianceName: "{{ morpheus_setup_appliance_name }}"
+      applianceUrl: "{{ morpheus_setup_appliance_url }}"
+      accountName: "{{ morpheus_setup_master_tenant }}"
+      username: "{{ morpheus_setup_admin_username }}"
+      password: "{{ morpheus_setup_admin_password }}"
+      email: "{{ morpheus_setup_admin_email }}"
+      firstName: "{{ morpheus_setup_admin_firstname }}"
+      lastName: "{{ morpheus_setup_admin_lastname }}"
+      backups: "{{ morpheus_setup_enable_backups }}"
+      monitoring: "{{ morpheus_setup_enable_monitoring }}"
+      logs: "{{ morpheus_setup_enable_logs }}"
+      hubMode: "{{ morpheus_setup_hub_mode }}"
+
+- name: Add hub settings if not skipping hub registration or login
+  set_fact:
+    morpheus_setup_payload: "{{ morpheus_setup_payload | combine( hubdata ) }}"
+  vars:
+    hubdata:
+      hub:
+        email: "{{ morpheus_setup_hub_email }}"
+        password: "{{ morpheus_setup_hub_password }}"
+        firstName: "{{ morpheus_setup_hub_firstname }}"
+        lastName: "{{ morpheus_setup_hub_lastname }}"
+        jobTitle: "{{ morpheus_setup_hub_jobtitle }}"
+        companyName: "{{ morpheus_setup_hub_companyname }}"
+  when: morpheus_setup_hub_mode is not match("skip")
+
+- name: Perform initial setup of Morpheus appliance
+  uri:
+    url: "{{ morpheus_setup_appliance_url }}/api/setup/init"
+    method: POST
+    body_format: json
+    body: "{{ morpheus_setup_payload | to_nice_json }}"
