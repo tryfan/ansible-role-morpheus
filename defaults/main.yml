@@ -21,12 +21,12 @@ morpheus_setup_enable_backups: false
 morpheus_setup_enable_monitoring: false
 morpheus_setup_enable_logs: false
 morpheus_setup_hub_mode: skip
-morpheus_setup_hub_email: test@example.com
-morpheus_setup_hub_password: morphPass1
-morpheus_setup_hub_firstname: test
-morpheus_setup_hub_lastname: ansible
-morpheus_setup_hub_jobtitle: bit wrangler
-morpheus_setup_hub_companyname: Morpheus Data
+morpheus_setup_hub_email: ""
+morpheus_setup_hub_password: ""
+morpheus_setup_hub_firstname: ""
+morpheus_setup_hub_lastname: ""
+morpheus_setup_hub_jobtitle: ""
+morpheus_setup_hub_companyname: ""
 
 morpheus_group: morpheus
 
