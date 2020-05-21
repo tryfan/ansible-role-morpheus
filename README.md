@@ -55,16 +55,35 @@ Refer to the examples repo here: https://github.com/tryfan/ansible-morpheus-exam
 |--------|--------|-------|-----------|
 |`morpheus_appliance_url`|Y|`https://morpheus.example.com`|URL of the appliance/load balancer|
 |`morpheus_use_custom_repo`|N|`false`|Modify custom repo for Morpheus installation
-|`morpheus_package_centos`|N|`https://downloads.morpheusdata.com/files/morpheus-appliance-4.2.0-2.el7.x86_64.rpm`|Morpheus Appliance RPM|
-|`morpheus_offline_package_centos`|N|`https://downloads.morpheusdata.com/files/morpheus-appliance-offline-4.2.0-2.noarch.rpm`|Morpheus Offline RPM; This package contains packages that the Morpheus installer would otherwise pull down.|
-|`morpheus_package_ubuntu`|N|`https://downloads.morpheusdata.com/files/morpheus-appliance_4.2.0-2_amd64.deb`|Morpheus Appliance DEB|
-|`morpheus_offline_package_ubuntu`|N|`https://downloads.morpheusdata.com/files/morpheus-appliance-offline_4.2.0-2_all.deb`|Morpheus Offline DEB; This package contains packages that the Morpheus installer would otherwise pull down.|
+|`morpheus_package_centos`|N|`in defaults/main.yml`|Morpheus Appliance RPM|
+|`morpheus_offline_package_centos`|N|`in defaults/main.yml`|Morpheus Offline RPM; This package contains packages that the Morpheus installer would otherwise pull down.|
+|`morpheus_package_ubuntu`|N|`in defaults/main.yml`|Morpheus Appliance DEB|
+|`morpheus_offline_package_ubuntu`|N|`in defaults/main.yml`|Morpheus Offline DEB; This package contains packages that the Morpheus installer would otherwise pull down.|
 |`morpheus_use_offline_package`|N|`false`|Whether to download and install the offline package for installation|
 |`morpheus_group`|Y|`morpheus`|Inventory group name for the Morpheus UI node(s)|
 |`morpheus_upgrade_flag`|N|`false`|When running the playbook, an RPM is downloaded by default.  Setting this flag forces its installation|
 |`morpheus_package_state`|N|`present`|Default package state.  Modified later if `morpheus_upgrade_flag` is set|
 |`morpheus_down_string`|N|`ok: down: morpheus-ui`|Morpheus UI down string|
 |`morpheus_check_down_string`|N|`ok: down: morpheus-ui`|Morpheus UI check_down string|
+|`morpheus_setup`|Y|`false`|Flag for initial appliance setup after installation| 
+|`morpheus_setup_appliance_name`|N|`MorpheusTest`|Name of your appliance|
+|`morpheus_setup_appliance_url`|N|`{{ morpheus_appliance_url }}`|URL of the appliance/load balancer|
+|`morpheus_setup_master_tenant`|N|`MasterTenant`|Master Tenant Name|
+|`morpheus_setup_admin_username`|N|`admin`|Admin username|
+|`morpheus_setup_admin_password`|N|`morphPass1@`|Admin password|
+|`morpheus_setup_admin_email`|N|`test@example.com`|Admin email|
+|`morpheus_setup_admin_firstname`|N|`admin`|Admin first name|
+|`morpheus_setup_admin_lastname`|N|`admin`|Admin last name|
+|`morpheus_setup_enable_backups`|N|`false`|Flag to enable backups|
+|`morpheus_setup_enable_monitoring`|N|`false`|Flag to enable monitoring|
+|`morpheus_setup_enable_logs`|N|`false`|Flag to enable logs|
+|`morpheus_setup_hub_mode`|N|`skip`|Morpheus Hub activation: possible values are `skip`, `login`, and `register`|
+|`morpheus_setup_hub_email`|N|`""`|Morpheus Hub email address|
+|`morpheus_setup_hub_password`|N|`""`|Morpheus Hub password|
+|`morpheus_setup_hub_firstname`|N|`""`|Morpheus Hub first name|
+|`morpheus_setup_hub_lastname`|N|`""`|Morpheus Hub last name|
+|`morpheus_setup_hub_jobtitle`|N|`""`|Morpheus Hub job title|
+|`morpheus_setup_hub_companyname`|N|`""`|Morpheus Hub company name|
 
 ### RabbitMQ Variables
 
@@ -139,6 +158,10 @@ NOTE: An external MySQL compatible database is required to run multiple applianc
 Set `morpheus_appliance_url` to the load balancer DNS name that will point to your appliance hosts.
 
 Put your appliance hosts in the inventory under the `morpheus_group` group.
+
+### Morpheus Appliance Initial Setup
+
+If `morpheus_setup` is true, this role will initially setup your appliance.  
 
 ## External Database
 

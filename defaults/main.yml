@@ -8,6 +8,26 @@ morpheus_package_ubuntu: https://downloads.morpheusdata.com/files/morpheus-appli
 morpheus_offline_package_ubuntu: https://downloads.morpheusdata.com/files/morpheus-appliance-offline_4.2.0-1_all.deb
 morpheus_use_offline_package: false
 
+morpheus_setup: false
+morpheus_setup_appliance_name: MorpheusTest
+morpheus_setup_appliance_url: "{{ morpheus_appliance_url }}"
+morpheus_setup_master_tenant: MasterTenant
+morpheus_setup_admin_username: admin
+morpheus_setup_admin_password: morphPass1@
+morpheus_setup_admin_email: test@example.com
+morpheus_setup_admin_firstname: admin
+morpheus_setup_admin_lastname: admin
+morpheus_setup_enable_backups: false
+morpheus_setup_enable_monitoring: false
+morpheus_setup_enable_logs: false
+morpheus_setup_hub_mode: skip
+morpheus_setup_hub_email: ""
+morpheus_setup_hub_password: ""
+morpheus_setup_hub_firstname: ""
+morpheus_setup_hub_lastname: ""
+morpheus_setup_hub_jobtitle: ""
+morpheus_setup_hub_companyname: ""
+
 morpheus_group: morpheus
 
 morpheus_upgrade_flag: false
