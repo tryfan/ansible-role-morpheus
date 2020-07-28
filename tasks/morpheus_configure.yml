@@ -18,7 +18,7 @@
     until: "'Certificate was added to keystore' in ca_output.stderr or 'already exists' in ca_output.stdout"
     failed_when: ca_output.rc != 0 and ca_output.rc != 1
     changed_when: "'Certificate was added to keystore' in ca_output.stderr"
-  when: morpheus_elastic_ca_file is not ""
+  when: morpheus_elastic_ca_file != ""
 
 - block:
   - name: Push the rabbit CA
