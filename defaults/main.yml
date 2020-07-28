@@ -7,6 +7,7 @@ morpheus_offline_package_centos: https://downloads.morpheusdata.com/files/morphe
 morpheus_package_ubuntu: https://downloads.morpheusdata.com/files/morpheus-appliance_4.2.1-1_amd64.deb
 morpheus_offline_package_ubuntu: https://downloads.morpheusdata.com/files/morpheus-appliance-offline_4.2.1-1_all.deb
 morpheus_use_offline_package: false
+morpheus_validate_certs: false
 
 morpheus_setup: false
 morpheus_setup_appliance_name: MorpheusTest

@@ -11,8 +11,9 @@
 
 - name: Check for morpheus/ping
   uri:
-    url: "http://{{ item }}/ping"
+    url: "https://{{ item }}/ping"
     return_content: true
+    validate_certs: "{{ morpheus_validate_certs }}"
   register: urlcontent
   until: '"MORPHEUS PING" in urlcontent.content'
   retries: 30
