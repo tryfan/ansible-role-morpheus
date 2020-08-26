@@ -38,9 +38,6 @@ elasticsearch['cluster'] = '{{ morpheus_elastic_cluster_name }}'
 elasticsearch['es_hosts'] = { {% for minion in morpheus_elastic_hosts %}
 '{{ minion['host'] }}' => {{ minion['port'] }}{% if not loop.last %},{% endif %}
 {% endfor %} }
-{% if morpheus_elastic_tls == true %}
-elasticsearch['use_tls'] = true
-{% endif %}
 {% if morpheus_elastic_auth_user | length > 1 %}
 elasticsearch['auth_user'] = '{{ morpheus_elastic_auth_user }}'
 elasticsearch['auth_password'] = '{{ morpheus_elastic_auth_password }}'
