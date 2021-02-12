@@ -6,6 +6,7 @@ morpheus_package_centos: https://downloads.morpheusdata.com/files/morpheus-appli
 morpheus_offline_package_centos: https://downloads.morpheusdata.com/files/morpheus-appliance-offline-4.2.1-1.noarch.rpm
 morpheus_package_ubuntu: https://downloads.morpheusdata.com/files/morpheus-appliance_4.2.1-1_amd64.deb
 morpheus_offline_package_ubuntu: https://downloads.morpheusdata.com/files/morpheus-appliance-offline_4.2.1-1_all.deb
+morpheus_disable_rpm_gpg_check: true
 morpheus_use_offline_package: false
 morpheus_validate_certs: false
 
