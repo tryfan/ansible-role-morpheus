@@ -55,12 +55,15 @@ Refer to the examples repo here: https://github.com/tryfan/ansible-morpheus-exam
 |--------|--------|-------|-----------|
 |`morpheus_appliance_url`|Y|`https://morpheus.example.com`|URL of the appliance/load balancer|
 |`morpheus_use_custom_repo`|N|`false`|Modify custom repo for Morpheus installation
-|`morpheus_package_centos`|N|`in defaults/main.yml`|Morpheus Appliance RPM|
-|`morpheus_offline_package_centos`|N|`in defaults/main.yml`|Morpheus Offline RPM; This package contains packages that the Morpheus installer would otherwise pull down.|
-|`morpheus_package_ubuntu`|N|`in defaults/main.yml`|Morpheus Appliance DEB|
-|`morpheus_offline_package_ubuntu`|N|`in defaults/main.yml`|Morpheus Offline DEB; This package contains packages that the Morpheus installer would otherwise pull down.|
+|`morpheus_version`|Y|`5.4.2-1`|Morpheus version to install|
+|`morpheus_package_centos`|N|`in defaults/main.yml`|Morpheus Appliance RPM for EL7, constructed with `morpheus_version`|
+|`morpheus_package_centos`|N|`in defaults/main.yml`|Morpheus Appliance RPM for EL8, constructed with `morpheus_version`|
+|`morpheus_offline_package_centos`|N|`in defaults/main.yml`|Morpheus Offline RPM; This package contains packages that the Morpheus installer would otherwise pull down|
+|`morpheus_package_ubuntu`|N|`in defaults/main.yml`|Morpheus Appliance DEB, constructed with `morpheus_version`|
+|`morpheus_offline_package_ubuntu`|N|`in defaults/main.yml`|Morpheus Offline DEB; This package contains packages that the Morpheus installer would otherwise pull down|
 |`morpheus_use_offline_package`|N|`false`|Whether to download and install the offline package for installation|
 |`morpheus_group`|Y|`morpheus`|Inventory group name for the Morpheus UI node(s)|
+|`morpheus_disable_rpm_gpg_check`|N|`true`|Disables GPG check for RPMs|
 |`morpheus_upgrade_flag`|N|`false`|When running the playbook, an RPM is downloaded by default.  Setting this flag forces its installation|
 |`morpheus_package_state`|N|`present`|Default package state.  Modified later if `morpheus_upgrade_flag` is set|
 |`morpheus_down_string`|N|`ok: down: morpheus-ui`|Morpheus UI down string|
