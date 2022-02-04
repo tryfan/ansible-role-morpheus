@@ -35,3 +35,4 @@
     method: POST
     body_format: json
     body: "{{ morpheus_setup_payload | to_nice_json }}"
+    validate_certs: "{{ morpheus_validate_certs }}"
