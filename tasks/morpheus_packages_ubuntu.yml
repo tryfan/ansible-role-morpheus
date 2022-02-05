@@ -21,3 +21,4 @@
   apt:
       deb: "{{ morpheus_offline_package_ubuntu }}"
       state: present
+  when: morpheus_use_offline_package
