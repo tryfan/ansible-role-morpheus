@@ -12,6 +12,7 @@ mysql['host'] = '{{ morpheus_db_host }}'
 mysql['morpheus_db'] = '{{ morpheus_db }}'
 mysql['morpheus_db_user'] = '{{ morpheus_db_user }}'
 mysql['morpheus_password'] = '{{ morpheus_db_pass }}'
+mysql['use_tls'] = {{ morpheus_db_use_tls }}
 {% endif %}
 {% if morpheus_rabbitmq_external == true %}
 rabbitmq['enable'] = false

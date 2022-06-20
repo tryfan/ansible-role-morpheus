@@ -62,5 +62,6 @@ morpheus_db: morpheusdb
 morpheus_db_user: morpheus
 morpheus_db_pass: Pa55w0rd!
 morpheus_db_port: 3306
+morpheus_db_use_tls: false
 morpheus_db_url_override: false
-morpheus_db_url_override_options: ""
+morpheus_db_url_override_options: "/{{ morpheus_db }}?autoReconnect=true&useUnicode=true&characterEncoding=utf8&failOverReadOnly=false&useSSL=false"
