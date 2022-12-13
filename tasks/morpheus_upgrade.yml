@@ -13,7 +13,7 @@
       command: morpheus-ctl status morpheus-ui
       register: uistopcheckcmd
       failed_when: not uistopcheckcmd.stdout.find(morpheus_check_down_string)
-      ignore_erros: true
+      ignore_errors: true
 
     - name: Gracefully kill morpheus-ui if all else fails
       command: morpheus-ctl graceful-kill morpheus-ui
